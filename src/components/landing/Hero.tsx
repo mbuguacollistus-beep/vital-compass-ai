@@ -41,6 +41,7 @@ const Hero = () => {
             variant="medical" 
             size="lg"
             className="text-lg px-8 py-3"
+            onClick={() => window.location.href = '/auth'}
           >
             Start Your Health Journey
           </Button>
@@ -48,6 +49,7 @@ const Hero = () => {
             variant="soft" 
             size="lg"
             className="text-lg px-8 py-3"
+            onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
           >
             Learn More
           </Button>

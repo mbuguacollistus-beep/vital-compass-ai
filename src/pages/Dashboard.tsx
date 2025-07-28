@@ -1,0 +1,244 @@
+import { useAuth } from '@/hooks/useAuth';
+import { Navigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import nixLogo from '@/assets/nix-ai-logo.png';
+
+const Dashboard = () => {
+  const { user, userRole, signOut, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-subtle">
+        <div className="text-center">
+          <div className="w-16 h-16 mx-auto mb-4 animate-pulse">
+            <img src={nixLogo} alt="Nix AI" className="w-full h-full" />
+          </div>
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <Navigate to="/auth" replace />;
+  }
+
+  const renderPatientDashboard = () => (
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Well-being Score</CardTitle>
+            <CardDescription>Today's wellness tracking</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-primary">8/10</div>
+            <p className="text-sm text-muted-foreground">Feeling good today</p>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle>Upcoming Visits</CardTitle>
+            <CardDescription>Next appointments</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-semibold">2</div>
+            <p className="text-sm text-muted-foreground">This week</p>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle>Health Trends</CardTitle>
+            <CardDescription>Pattern analysis</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-semibold text-green-600">Improving</div>
+            <p className="text-sm text-muted-foreground">Overall health trend</p>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+
+  const renderProviderDashboard = () => (
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>My Patients</CardTitle>
+            <CardDescription>Active patient count</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-primary">24</div>
+            <p className="text-sm text-muted-foreground">Active patients</p>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle>Today's Schedule</CardTitle>
+            <CardDescription>Appointments today</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-semibold">8</div>
+            <p className="text-sm text-muted-foreground">Scheduled visits</p>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle>Alerts</CardTitle>
+            <CardDescription>Patient notifications</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-semibold text-amber-600">3</div>
+            <p className="text-sm text-muted-foreground">Require attention</p>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-gradient-subtle">
+      {/* Header */}
+      <header className="border-b border-border/20 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <img src={nixLogo} alt="Nix AI" className="w-8 h-8" />
+            <h1 className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+              Nix AI
+            </h1>
+          </div>
+          
+          <div className="flex items-center space-x-4">
+            <div className="text-right">
+              <p className="text-sm font-medium">{user.email}</p>
+              <p className="text-xs text-muted-foreground capitalize">{userRole || 'Loading...'}</p>
+            </div>
+            <Button variant="outline" onClick={signOut}>
+              Sign Out
+            </Button>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="container mx-auto px-6 py-8">
+        <div className="mb-8">
+          <h2 className="text-3xl font-bold mb-2">
+            Welcome back, {user.email?.split('@')[0]}!
+          </h2>
+          <p className="text-muted-foreground">
+            {userRole === 'patient' && "Here's your health overview."}
+            {userRole === 'doctor' && "Manage your patients and appointments."}
+            {userRole === 'nurse' && "Access patient care information."}
+            {userRole === 'hospital_admin' && "Monitor hospital operations."}
+            {userRole === 'caregiver' && "Support your loved ones' health journey."}
+          </p>
+        </div>
+
+        <Tabs defaultValue="overview" className="space-y-6">
+          <TabsList>
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            {userRole === 'patient' && (
+              <>
+                <TabsTrigger value="wellbeing">Well-being</TabsTrigger>
+                <TabsTrigger value="visits">Medical Visits</TabsTrigger>
+                <TabsTrigger value="network">Care Network</TabsTrigger>
+              </>
+            )}
+            {(userRole === 'doctor' || userRole === 'nurse' || userRole === 'hospital_admin') && (
+              <>
+                <TabsTrigger value="patients">Patients</TabsTrigger>
+                <TabsTrigger value="schedule">Schedule</TabsTrigger>
+                <TabsTrigger value="data-entry">Data Entry</TabsTrigger>
+              </>
+            )}
+            <TabsTrigger value="profile">Profile</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="overview" className="space-y-6">
+            {userRole === 'patient' ? renderPatientDashboard() : renderProviderDashboard()}
+          </TabsContent>
+          
+          <TabsContent value="wellbeing" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Daily Well-being Tracking</CardTitle>
+                <CardDescription>
+                  Track your daily well-being score and symptoms
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">Well-being tracking interface coming soon...</p>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          
+          <TabsContent value="visits" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Medical Visits History</CardTitle>
+                <CardDescription>
+                  View your past and upcoming medical appointments
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">Medical visits interface coming soon...</p>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          
+          <TabsContent value="patients" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Patient Management</CardTitle>
+                <CardDescription>
+                  View and manage your patients' health data
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">Patient management interface coming soon...</p>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          
+          <TabsContent value="data-entry" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Medical Data Entry</CardTitle>
+                <CardDescription>
+                  Enter visit data, vitals, and treatment notes
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">Data entry interface coming soon...</p>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          
+          <TabsContent value="profile" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Profile Settings</CardTitle>
+                <CardDescription>
+                  Manage your account and preferences
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">Profile settings coming soon...</p>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </main>
+    </div>
+  );
+};
+
+export default Dashboard;
