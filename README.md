@@ -52,3 +52,7 @@
 - shadcn-ui
 - Tailwind CSS
 -Supabase
+###Screensots
+<img width="929" height="434" alt="Screenshot (143)" src="https://github.com/user-attachments/assets/446a19fb-d9eb-4fdc-84d4-be6e422f9b53" />
+<img width="929" height="433" alt="Screenshot (144)" src="https://github.com/user-attachments/assets/365f97b1-4073-446a-ac58-895c22e01e8d" />
+
