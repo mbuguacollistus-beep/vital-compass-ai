@@ -52,6 +52,92 @@ export type Database = {
           },
         ]
       }
+      food_items: {
+        Row: {
+          allergens: string[] | null
+          category: string
+          created_at: string
+          dietary_restrictions: string[] | null
+          health_benefits: string[] | null
+          id: string
+          name: string
+          nutritional_info: Json | null
+        }
+        Insert: {
+          allergens?: string[] | null
+          category: string
+          created_at?: string
+          dietary_restrictions?: string[] | null
+          health_benefits?: string[] | null
+          id?: string
+          name: string
+          nutritional_info?: Json | null
+        }
+        Update: {
+          allergens?: string[] | null
+          category?: string
+          created_at?: string
+          dietary_restrictions?: string[] | null
+          health_benefits?: string[] | null
+          id?: string
+          name?: string
+          nutritional_info?: Json | null
+        }
+        Relationships: []
+      }
+      food_recommendations: {
+        Row: {
+          created_at: string
+          date_recommended: string
+          dietary_goals: string[] | null
+          id: string
+          is_favorite: boolean | null
+          meal_type: string | null
+          patient_id: string
+          patient_rating: number | null
+          reasoning: string | null
+          recommendation_type: string
+          recommended_foods: Json
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          date_recommended?: string
+          dietary_goals?: string[] | null
+          id?: string
+          is_favorite?: boolean | null
+          meal_type?: string | null
+          patient_id: string
+          patient_rating?: number | null
+          reasoning?: string | null
+          recommendation_type: string
+          recommended_foods: Json
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          date_recommended?: string
+          dietary_goals?: string[] | null
+          id?: string
+          is_favorite?: boolean | null
+          meal_type?: string | null
+          patient_id?: string
+          patient_rating?: number | null
+          reasoning?: string | null
+          recommendation_type?: string
+          recommended_foods?: Json
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "food_recommendations_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       healthcare_providers: {
         Row: {
           created_at: string
@@ -189,6 +275,47 @@ export type Database = {
             columns: ["provider_id"]
             isOneToOne: false
             referencedRelation: "healthcare_providers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      nutrition_logs: {
+        Row: {
+          calories_consumed: number | null
+          created_at: string
+          date_consumed: string
+          food_consumed: Json
+          id: string
+          meal_type: string
+          notes: string | null
+          patient_id: string
+        }
+        Insert: {
+          calories_consumed?: number | null
+          created_at?: string
+          date_consumed?: string
+          food_consumed: Json
+          id?: string
+          meal_type: string
+          notes?: string | null
+          patient_id: string
+        }
+        Update: {
+          calories_consumed?: number | null
+          created_at?: string
+          date_consumed?: string
+          food_consumed?: Json
+          id?: string
+          meal_type?: string
+          notes?: string | null
+          patient_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "nutrition_logs_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
             referencedColumns: ["id"]
           },
         ]

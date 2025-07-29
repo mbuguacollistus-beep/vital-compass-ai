@@ -3,6 +3,8 @@ import { Navigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import FoodRecommendations from '@/components/food/FoodRecommendations';
+import NutritionLog from '@/components/food/NutritionLog';
 import nixLogo from '@/assets/nix-ai-logo.png';
 
 const Dashboard = () => {
@@ -149,6 +151,7 @@ const Dashboard = () => {
               <>
                 <TabsTrigger value="wellbeing">Well-being</TabsTrigger>
                 <TabsTrigger value="visits">Medical Visits</TabsTrigger>
+                <TabsTrigger value="food">Food & Nutrition</TabsTrigger>
                 <TabsTrigger value="network">Care Network</TabsTrigger>
               </>
             )}
@@ -180,7 +183,24 @@ const Dashboard = () => {
             </Card>
           </TabsContent>
           
-          <TabsContent value="visits" className="space-y-6">
+          <TabsContent value="food" className="space-y-6">
+            <Tabs defaultValue="recommendations" className="space-y-4">
+              <TabsList>
+                <TabsTrigger value="recommendations">Food Recommendations</TabsTrigger>
+                <TabsTrigger value="nutrition-log">Nutrition Log</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="recommendations">
+                <FoodRecommendations />
+              </TabsContent>
+              
+              <TabsContent value="nutrition-log">
+                <NutritionLog />
+              </TabsContent>
+            </Tabs>
+          </TabsContent>
+          
+          <TabsContent value="network" className="space-y-6">
             <Card>
               <CardHeader>
                 <CardTitle>Medical Visits History</CardTitle>
