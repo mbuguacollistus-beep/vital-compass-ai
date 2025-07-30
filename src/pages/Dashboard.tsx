@@ -1,16 +1,60 @@
 import { useAuth } from '@/hooks/useAuth';
 import { Navigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import FoodRecommendations from '@/components/food/FoodRecommendations';
 import NutritionLog from '@/components/food/NutritionLog';
+import { PatientProfileSetup } from '@/components/onboarding/PatientProfileSetup';
+import { supabase } from '@/integrations/supabase/client';
 import nixLogo from '@/assets/nix-ai-logo.png';
 
 const Dashboard = () => {
   const { user, userRole, signOut, loading } = useAuth();
+  const [patientProfile, setPatientProfile] = useState<any>(null);
+  const [profileLoading, setProfileLoading] = useState(true);
+  const [needsSetup, setNeedsSetup] = useState(false);
 
-  if (loading) {
+  useEffect(() => {
+    if (user && userRole === 'patient') {
+      fetchPatientProfile();
+    } else {
+      setProfileLoading(false);
+    }
+  }, [user, userRole]);
+
+  const fetchPatientProfile = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('patients')
+        .select('*')
+        .eq('user_id', user?.id)
+        .single();
+
+      if (error && error.code !== 'PGRST116') {
+        console.error('Error fetching patient profile:', error);
+      } else if (data) {
+        setPatientProfile(data);
+        // Check if profile needs completion
+        const needsCompletion = !data.emergency_contact_name || 
+                               !data.emergency_contact_phone ||
+                               !data.medical_conditions?.length;
+        setNeedsSetup(needsCompletion);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setProfileLoading(false);
+    }
+  };
+
+  const handleProfileSetupComplete = () => {
+    setNeedsSetup(false);
+    fetchPatientProfile();
+  };
+
+  if (loading || profileLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-subtle">
         <div className="text-center">
@@ -25,6 +69,26 @@ const Dashboard = () => {
 
   if (!user) {
     return <Navigate to="/auth" replace />;
+  }
+
+  // Show profile setup for patients who need to complete their profile
+  if (userRole === 'patient' && needsSetup && patientProfile) {
+    return (
+      <div className="min-h-screen bg-gradient-subtle">
+        <div className="container mx-auto px-6 py-8">
+          <div className="mb-8 text-center">
+            <img src={nixLogo} alt="Nix AI" className="w-16 h-16 mx-auto mb-4" />
+            <h1 className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+              Welcome to Nix AI
+            </h1>
+          </div>
+          <PatientProfileSetup 
+            patientId={patientProfile.id} 
+            onComplete={handleProfileSetupComplete}
+          />
+        </div>
+      </div>
+    );
   }
 
   const renderPatientDashboard = () => (
