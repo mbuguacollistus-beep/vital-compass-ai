@@ -6,6 +6,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import FoodRecommendations from '@/components/food/FoodRecommendations';
 import NutritionLog from '@/components/food/NutritionLog';
+import { WellbeingTracker } from '@/components/health/WellbeingTracker';
+import { VitalsTracker } from '@/components/health/VitalsTracker';
+import { MedicationTracker } from '@/components/health/MedicationTracker';
+import { HealthGoals } from '@/components/health/HealthGoals';
 import { PatientProfileSetup } from '@/components/onboarding/PatientProfileSetup';
 import { supabase } from '@/integrations/supabase/client';
 import nixLogo from '@/assets/nix-ai-logo.png';
@@ -214,6 +218,9 @@ const Dashboard = () => {
             {userRole === 'patient' && (
               <>
                 <TabsTrigger value="wellbeing">Well-being</TabsTrigger>
+                <TabsTrigger value="vitals">Vital Signs</TabsTrigger>
+                <TabsTrigger value="medications">Medications</TabsTrigger>
+                <TabsTrigger value="goals">Health Goals</TabsTrigger>
                 <TabsTrigger value="visits">Medical Visits</TabsTrigger>
                 <TabsTrigger value="food">Food & Nutrition</TabsTrigger>
                 <TabsTrigger value="network">Care Network</TabsTrigger>
@@ -234,17 +241,19 @@ const Dashboard = () => {
           </TabsContent>
           
           <TabsContent value="wellbeing" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Daily Well-being Tracking</CardTitle>
-                <CardDescription>
-                  Track your daily well-being score and symptoms
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">Well-being tracking interface coming soon...</p>
-              </CardContent>
-            </Card>
+            <WellbeingTracker />
+          </TabsContent>
+          
+          <TabsContent value="vitals" className="space-y-6">
+            <VitalsTracker />
+          </TabsContent>
+          
+          <TabsContent value="medications" className="space-y-6">
+            <MedicationTracker />
+          </TabsContent>
+          
+          <TabsContent value="goals" className="space-y-6">
+            <HealthGoals />
           </TabsContent>
           
           <TabsContent value="food" className="space-y-6">
@@ -264,7 +273,7 @@ const Dashboard = () => {
             </Tabs>
           </TabsContent>
           
-          <TabsContent value="network" className="space-y-6">
+          <TabsContent value="visits" className="space-y-6">
             <Card>
               <CardHeader>
                 <CardTitle>Medical Visits History</CardTitle>
@@ -274,6 +283,20 @@ const Dashboard = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">Medical visits interface coming soon...</p>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          
+          <TabsContent value="network" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Care Network</CardTitle>
+                <CardDescription>
+                  Manage your healthcare providers and family caregivers
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">Care network interface coming soon...</p>
               </CardContent>
             </Card>
           </TabsContent>
