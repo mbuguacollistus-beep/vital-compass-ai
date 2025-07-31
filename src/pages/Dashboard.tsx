@@ -11,6 +11,9 @@ import { VitalsTracker } from '@/components/health/VitalsTracker';
 import { MedicationTracker } from '@/components/health/MedicationTracker';
 import { HealthGoals } from '@/components/health/HealthGoals';
 import { PatientProfileSetup } from '@/components/onboarding/PatientProfileSetup';
+import { PatientManagement } from '@/components/provider/PatientManagement';
+import { ScheduleManagement } from '@/components/provider/ScheduleManagement';
+import { DataEntry } from '@/components/provider/DataEntry';
 import { supabase } from '@/integrations/supabase/client';
 import nixLogo from '@/assets/nix-ai-logo.png';
 
@@ -302,31 +305,15 @@ const Dashboard = () => {
           </TabsContent>
           
           <TabsContent value="patients" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Patient Management</CardTitle>
-                <CardDescription>
-                  View and manage your patients' health data
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">Patient management interface coming soon...</p>
-              </CardContent>
-            </Card>
+            <PatientManagement />
+          </TabsContent>
+          
+          <TabsContent value="schedule" className="space-y-6">
+            <ScheduleManagement />
           </TabsContent>
           
           <TabsContent value="data-entry" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Medical Data Entry</CardTitle>
-                <CardDescription>
-                  Enter visit data, vitals, and treatment notes
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">Data entry interface coming soon...</p>
-              </CardContent>
-            </Card>
+            <DataEntry />
           </TabsContent>
           
           <TabsContent value="profile" className="space-y-6">
