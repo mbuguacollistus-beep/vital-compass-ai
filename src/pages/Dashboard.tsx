@@ -1,7 +1,6 @@
 import { useAuth } from '@/hooks/useAuth';
 import { Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import FoodRecommendations from '@/components/food/FoodRecommendations';
@@ -14,6 +13,11 @@ import { PatientProfileSetup } from '@/components/onboarding/PatientProfileSetup
 import { PatientManagement } from '@/components/provider/PatientManagement';
 import { ScheduleManagement } from '@/components/provider/ScheduleManagement';
 import { DataEntry } from '@/components/provider/DataEntry';
+import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
+import { DashboardWelcome } from '@/components/dashboard/DashboardWelcome';
+import { PatientOverview } from '@/components/dashboard/PatientOverview';
+import { ProviderOverview } from '@/components/dashboard/ProviderOverview';
+import { LoadingScreen } from '@/components/dashboard/LoadingScreen';
 import { supabase } from '@/integrations/supabase/client';
 import nixLogo from '@/assets/nix-ai-logo.png';
 
@@ -62,16 +66,7 @@ const Dashboard = () => {
   };
 
   if (loading || profileLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-subtle">
-        <div className="text-center">
-          <div className="w-16 h-16 mx-auto mb-4 animate-pulse">
-            <img src={nixLogo} alt="Nix AI" className="w-full h-full" />
-          </div>
-          <p className="text-muted-foreground">Loading...</p>
-        </div>
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   if (!user) {
@@ -82,12 +77,18 @@ const Dashboard = () => {
   if (userRole === 'patient' && needsSetup && patientProfile) {
     return (
       <div className="min-h-screen bg-gradient-subtle">
+        <DashboardHeader />
         <div className="container mx-auto px-6 py-8">
-          <div className="mb-8 text-center">
-            <img src={nixLogo} alt="Nix AI" className="w-16 h-16 mx-auto mb-4" />
-            <h1 className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              Welcome to Nix AI
-            </h1>
+          <div className="mb-8 text-center space-y-4">
+            <div className="w-20 h-20 mx-auto rounded-2xl bg-gradient-primary p-4 shadow-primary">
+              <img src={nixLogo} alt="Nix AI" className="w-full h-full filter brightness-0 invert" />
+            </div>
+            <div className="space-y-2">
+              <h1 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+                Welcome to Nix AI Healthcare
+              </h1>
+              <p className="text-muted-foreground">Let's complete your health profile to provide personalized care</p>
+            </div>
           </div>
           <PatientProfileSetup 
             patientId={patientProfile.id} 
@@ -99,144 +100,67 @@ const Dashboard = () => {
   }
 
   const renderPatientDashboard = () => (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Well-being Score</CardTitle>
-            <CardDescription>Today's wellness tracking</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-primary">8/10</div>
-            <p className="text-sm text-muted-foreground">Feeling good today</p>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader>
-            <CardTitle>Upcoming Visits</CardTitle>
-            <CardDescription>Next appointments</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-semibold">2</div>
-            <p className="text-sm text-muted-foreground">This week</p>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader>
-            <CardTitle>Health Trends</CardTitle>
-            <CardDescription>Pattern analysis</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-semibold text-green-600">Improving</div>
-            <p className="text-sm text-muted-foreground">Overall health trend</p>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
+    <PatientOverview />
   );
 
   const renderProviderDashboard = () => (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>My Patients</CardTitle>
-            <CardDescription>Active patient count</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-primary">24</div>
-            <p className="text-sm text-muted-foreground">Active patients</p>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader>
-            <CardTitle>Today's Schedule</CardTitle>
-            <CardDescription>Appointments today</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-semibold">8</div>
-            <p className="text-sm text-muted-foreground">Scheduled visits</p>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader>
-            <CardTitle>Alerts</CardTitle>
-            <CardDescription>Patient notifications</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-semibold text-amber-600">3</div>
-            <p className="text-sm text-muted-foreground">Require attention</p>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
+    <ProviderOverview />
   );
 
   return (
     <div className="min-h-screen bg-gradient-subtle">
-      {/* Header */}
-      <header className="border-b border-border/20 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <img src={nixLogo} alt="Nix AI" className="w-8 h-8" />
-            <h1 className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              Nix AI
-            </h1>
-          </div>
-          
-          <div className="flex items-center space-x-4">
-            <div className="text-right">
-              <p className="text-sm font-medium">{user.email}</p>
-              <p className="text-xs text-muted-foreground capitalize">{userRole || 'Loading...'}</p>
-            </div>
-            <Button variant="outline" onClick={signOut}>
-              Sign Out
-            </Button>
-          </div>
-        </div>
-      </header>
+      <DashboardHeader />
 
       {/* Main Content */}
       <main className="container mx-auto px-6 py-8">
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold mb-2">
-            Welcome back, {user.email?.split('@')[0]}!
-          </h2>
-          <p className="text-muted-foreground">
-            {userRole === 'patient' && "Here's your health overview."}
-            {userRole === 'doctor' && "Manage your patients and appointments."}
-            {userRole === 'nurse' && "Access patient care information."}
-            {userRole === 'hospital_admin' && "Monitor hospital operations."}
-            {userRole === 'caregiver' && "Support your loved ones' health journey."}
-          </p>
-        </div>
+        <DashboardWelcome patientProfile={patientProfile} />
 
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList>
-            <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 bg-card shadow-card">
+            <TabsTrigger value="overview" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              Overview
+            </TabsTrigger>
             {userRole === 'patient' && (
               <>
-                <TabsTrigger value="wellbeing">Well-being</TabsTrigger>
-                <TabsTrigger value="vitals">Vital Signs</TabsTrigger>
-                <TabsTrigger value="medications">Medications</TabsTrigger>
-                <TabsTrigger value="goals">Health Goals</TabsTrigger>
-                <TabsTrigger value="visits">Medical Visits</TabsTrigger>
-                <TabsTrigger value="food">Food & Nutrition</TabsTrigger>
-                <TabsTrigger value="network">Care Network</TabsTrigger>
+                <TabsTrigger value="wellbeing" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                  Well-being
+                </TabsTrigger>
+                <TabsTrigger value="vitals" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                  Vitals
+                </TabsTrigger>
+                <TabsTrigger value="medications" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                  Medications
+                </TabsTrigger>
+                <TabsTrigger value="goals" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                  Goals
+                </TabsTrigger>
+                <TabsTrigger value="visits" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                  Visits
+                </TabsTrigger>
+                <TabsTrigger value="food" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                  Nutrition
+                </TabsTrigger>
+                <TabsTrigger value="network" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                  Network
+                </TabsTrigger>
               </>
             )}
             {(userRole === 'doctor' || userRole === 'nurse' || userRole === 'hospital_admin') && (
               <>
-                <TabsTrigger value="patients">Patients</TabsTrigger>
-                <TabsTrigger value="schedule">Schedule</TabsTrigger>
-                <TabsTrigger value="data-entry">Data Entry</TabsTrigger>
+                <TabsTrigger value="patients" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                  Patients
+                </TabsTrigger>
+                <TabsTrigger value="schedule" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                  Schedule
+                </TabsTrigger>
+                <TabsTrigger value="data-entry" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                  Data Entry
+                </TabsTrigger>
               </>
             )}
-            <TabsTrigger value="profile">Profile</TabsTrigger>
+            <TabsTrigger value="profile" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              Profile
+            </TabsTrigger>
           </TabsList>
           
           <TabsContent value="overview" className="space-y-6">
@@ -260,46 +184,81 @@ const Dashboard = () => {
           </TabsContent>
           
           <TabsContent value="food" className="space-y-6">
-            <Tabs defaultValue="recommendations" className="space-y-4">
-              <TabsList>
-                <TabsTrigger value="recommendations">Food Recommendations</TabsTrigger>
-                <TabsTrigger value="nutrition-log">Nutrition Log</TabsTrigger>
-              </TabsList>
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+              <Card className="shadow-card">
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <span>🍎</span>
+                    <span>Food Recommendations</span>
+                  </CardTitle>
+                  <CardDescription>
+                    AI-powered nutrition suggestions based on your health profile
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <FoodRecommendations />
+                </CardContent>
+              </Card>
               
-              <TabsContent value="recommendations">
-                <FoodRecommendations />
-              </TabsContent>
-              
-              <TabsContent value="nutrition-log">
-                <NutritionLog />
-              </TabsContent>
-            </Tabs>
+              <Card className="shadow-card">
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <span>📊</span>
+                    <span>Nutrition Log</span>
+                  </CardTitle>
+                  <CardDescription>
+                    Track your daily nutrition intake and patterns
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <NutritionLog />
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
           
           <TabsContent value="visits" className="space-y-6">
-            <Card>
+            <Card className="shadow-card">
               <CardHeader>
-                <CardTitle>Medical Visits History</CardTitle>
+                <CardTitle className="flex items-center space-x-2">
+                  <span>🏥</span>
+                  <span>Medical Visits History</span>
+                </CardTitle>
                 <CardDescription>
                   View your past and upcoming medical appointments
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">Medical visits interface coming soon...</p>
+                <div className="text-center py-12 space-y-4">
+                  <div className="text-4xl">📅</div>
+                  <h3 className="text-lg font-semibold">Medical Visits Coming Soon</h3>
+                  <p className="text-muted-foreground max-w-md mx-auto">
+                    We're building a comprehensive appointment management system to track your medical visits and health journey.
+                  </p>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
           
           <TabsContent value="network" className="space-y-6">
-            <Card>
+            <Card className="shadow-card">
               <CardHeader>
-                <CardTitle>Care Network</CardTitle>
+                <CardTitle className="flex items-center space-x-2">
+                  <span>👥</span>
+                  <span>Care Network</span>
+                </CardTitle>
                 <CardDescription>
                   Manage your healthcare providers and family caregivers
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">Care network interface coming soon...</p>
+                <div className="text-center py-12 space-y-4">
+                  <div className="text-4xl">🤝</div>
+                  <h3 className="text-lg font-semibold">Care Network Coming Soon</h3>
+                  <p className="text-muted-foreground max-w-md mx-auto">
+                    Connect with your healthcare team and family members to create a comprehensive support network.
+                  </p>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
@@ -317,15 +276,24 @@ const Dashboard = () => {
           </TabsContent>
           
           <TabsContent value="profile" className="space-y-6">
-            <Card>
+            <Card className="shadow-card">
               <CardHeader>
-                <CardTitle>Profile Settings</CardTitle>
+                <CardTitle className="flex items-center space-x-2">
+                  <span>⚙️</span>
+                  <span>Profile Settings</span>
+                </CardTitle>
                 <CardDescription>
                   Manage your account and preferences
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">Profile settings coming soon...</p>
+                <div className="text-center py-12 space-y-4">
+                  <div className="text-4xl">👤</div>
+                  <h3 className="text-lg font-semibold">Profile Settings Coming Soon</h3>
+                  <p className="text-muted-foreground max-w-md mx-auto">
+                    Customize your account settings, privacy preferences, and notification options.
+                  </p>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
