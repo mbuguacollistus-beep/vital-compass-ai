@@ -19,6 +19,7 @@ import { PatientOverview } from '@/components/dashboard/PatientOverview';
 import { ProviderOverview } from '@/components/dashboard/ProviderOverview';
 import { LoadingScreen } from '@/components/dashboard/LoadingScreen';
 import { supabase } from '@/integrations/supabase/client';
+import { EmptyState } from '@/components/ui/empty-state';
 import nixLogo from '@/assets/nix-ai-logo.png';
 
 const Dashboard = () => {
@@ -229,13 +230,11 @@ const Dashboard = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-center py-12 space-y-4">
-                  <div className="text-4xl">📅</div>
-                  <h3 className="text-lg font-semibold">Medical Visits Coming Soon</h3>
-                  <p className="text-muted-foreground max-w-md mx-auto">
-                    We're building a comprehensive appointment management system to track your medical visits and health journey.
-                  </p>
-                </div>
+                <EmptyState
+                  icon="📅"
+                  title="Medical Visits Coming Soon"
+                  description="We're building a comprehensive appointment management system to track your medical visits and health journey."
+                />
               </CardContent>
             </Card>
           </TabsContent>
@@ -252,13 +251,11 @@ const Dashboard = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-center py-12 space-y-4">
-                  <div className="text-4xl">🤝</div>
-                  <h3 className="text-lg font-semibold">Care Network Coming Soon</h3>
-                  <p className="text-muted-foreground max-w-md mx-auto">
-                    Connect with your healthcare team and family members to create a comprehensive support network.
-                  </p>
-                </div>
+                <EmptyState
+                  icon="🤝"
+                  title="Care Network Coming Soon"
+                  description="Connect with your healthcare team and family members to create a comprehensive support network."
+                />
               </CardContent>
             </Card>
           </TabsContent>
@@ -287,13 +284,11 @@ const Dashboard = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-center py-12 space-y-4">
-                  <div className="text-4xl">👤</div>
-                  <h3 className="text-lg font-semibold">Profile Settings Coming Soon</h3>
-                  <p className="text-muted-foreground max-w-md mx-auto">
-                    Customize your account settings, privacy preferences, and notification options.
-                  </p>
-                </div>
+                <EmptyState
+                  icon="👤"
+                  title="Profile Settings Coming Soon"
+                  description="Customize your account settings, privacy preferences, and notification options."
+                />
               </CardContent>
             </Card>
           </TabsContent>

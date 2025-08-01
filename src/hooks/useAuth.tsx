@@ -32,20 +32,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(session?.user ?? null);
         
         if (session?.user) {
-          // Fetch user role
-          setTimeout(async () => {
-            try {
-              const { data: roleData } = await supabase
-                .from('user_roles')
-                .select('role')
-                .eq('user_id', session.user.id)
-                .single();
-              
-              setUserRole(roleData?.role || null);
-            } catch (error) {
-              console.error('Error fetching user role:', error);
-            }
-          }, 0);
+          // Fetch user role immediately
+          try {
+            const { data: roleData } = await supabase
+              .from('user_roles')
+              .select('role')
+              .eq('user_id', session.user.id)
+              .single();
+            
+            setUserRole(roleData?.role || null);
+          } catch (error) {
+            console.error('Error fetching user role:', error);
+          }
         } else {
           setUserRole(null);
         }

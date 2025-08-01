@@ -18,9 +18,12 @@ const Index = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-subtle">
-        <div className="text-center">
+        <div className="text-center space-y-4">
           <div className="w-16 h-16 mx-auto mb-4 animate-pulse bg-gradient-primary rounded-full"></div>
-          <p className="text-muted-foreground">Loading...</p>
+          <h2 className="text-xl font-semibold bg-gradient-primary bg-clip-text text-transparent">
+            Nix AI Healthcare
+          </h2>
+          <p className="text-muted-foreground">Loading your health companion...</p>
         </div>
       </div>
     );
