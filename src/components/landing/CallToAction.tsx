@@ -31,10 +31,6 @@ const CallToAction = () => {
               </Button>
             </div>
             
-            <p className="text-sm text-muted-foreground">
-              ⚠️ <strong>Important:</strong> To enable full functionality including patient data storage, trend analysis, and care coordination, 
-              please connect to Supabase using the green button in the top right corner.
-            </p>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 pt-8 border-t border-border">
               <div className="text-center">
