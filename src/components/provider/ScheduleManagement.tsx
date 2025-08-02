@@ -57,14 +57,14 @@ export const ScheduleManagement = () => {
             .from('patients')
             .select('patient_number, user_id')
             .eq('id', visit.patient_id)
-            .single();
+            .maybeSingle();
 
           if (patient) {
             const { data: profile } = await supabase
               .from('profiles')
               .select('full_name, email')
               .eq('user_id', patient.user_id)
-              .single();
+              .maybeSingle();
 
             return {
               ...visit,

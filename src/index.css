@@ -40,6 +40,8 @@ All colors MUST be HSL.
     --destructive-foreground: 210 40% 98%;
     --warning: 38 92% 50%;
     --warning-foreground: 48 96% 89%;
+    --success: 142 71% 45%;
+    --success-foreground: 355.7 100% 97.3%;
 
     --border: 220 13% 91%;
     --input: 220 13% 91%;
@@ -107,6 +109,8 @@ All colors MUST be HSL.
     --destructive-foreground: 210 40% 98%;
     --warning: 38 92% 50%;
     --warning-foreground: 48 96% 89%;
+    --success: 142 71% 45%;
+    --success-foreground: 355.7 100% 97.3%;
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;

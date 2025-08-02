@@ -63,7 +63,7 @@ const FoodRecommendations = () => {
         .from('patients')
         .select('id')
         .eq('user_id', user?.id)
-        .single();
+        .maybeSingle();
 
       if (error) {
         console.error('Error fetching patient profile:', error);

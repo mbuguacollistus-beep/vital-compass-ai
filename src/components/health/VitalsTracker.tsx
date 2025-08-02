@@ -49,7 +49,7 @@ export const VitalsTracker = () => {
           .from('patients')
           .select('id')
           .eq('user_id', user.id)
-          .single();
+          .maybeSingle();
         
         if (patient) {
           setPatientId(patient.id);
@@ -136,10 +136,10 @@ export const VitalsTracker = () => {
   const getBloodPressureStatus = (systolic?: number, diastolic?: number) => {
     if (!systolic || !diastolic) return { status: "N/A", color: "text-muted-foreground" };
     
-    if (systolic < 120 && diastolic < 80) return { status: "Normal", color: "text-green-600" };
-    if (systolic < 130 && diastolic < 80) return { status: "Elevated", color: "text-yellow-600" };
-    if (systolic < 140 || diastolic < 90) return { status: "High Stage 1", color: "text-orange-600" };
-    return { status: "High Stage 2", color: "text-red-600" };
+    if (systolic < 120 && diastolic < 80) return { status: "Normal", color: "text-success" };
+    if (systolic < 130 && diastolic < 80) return { status: "Elevated", color: "text-warning" };
+    if (systolic < 140 || diastolic < 90) return { status: "High Stage 1", color: "text-destructive" };
+    return { status: "High Stage 2", color: "text-destructive" };
   };
 
   return (

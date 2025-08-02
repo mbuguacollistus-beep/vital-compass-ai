@@ -48,7 +48,7 @@ export const WellbeingTracker = () => {
           .from('patients')
           .select('id')
           .eq('user_id', user.id)
-          .single();
+          .maybeSingle();
         
         if (patient) {
           setPatientId(patient.id);
@@ -119,9 +119,9 @@ export const WellbeingTracker = () => {
   };
 
   const getScoreColor = (score: number) => {
-    if (score >= 8) return "text-green-600";
-    if (score >= 6) return "text-yellow-600";
-    return "text-red-600";
+    if (score >= 8) return "text-success";
+    if (score >= 6) return "text-warning";
+    return "text-destructive";
   };
 
   const getScoreLabel = (score: number) => {

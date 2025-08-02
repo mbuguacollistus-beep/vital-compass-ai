@@ -118,11 +118,11 @@ export const HealthGoals = () => {
   };
 
   const getStatusColor = (goal: HealthGoal) => {
-    if (goal.completed) return "text-green-600";
+    if (goal.completed) return "text-success";
     const daysRemaining = getDaysRemaining(goal.target_date);
-    if (daysRemaining < 0) return "text-red-600";
-    if (daysRemaining < 7) return "text-yellow-600";
-    return "text-blue-600";
+    if (daysRemaining < 0) return "text-destructive";
+    if (daysRemaining < 7) return "text-warning";
+    return "text-primary";
   };
 
   const activeGoals = goals.filter(goal => !goal.completed);
@@ -149,11 +149,11 @@ export const HealthGoals = () => {
                 <div className="text-sm text-muted-foreground">Active Goals</div>
               </div>
               <div>
-                <div className="text-2xl font-bold text-green-600">{completedGoals.length}</div>
+                <div className="text-2xl font-bold text-success">{completedGoals.length}</div>
                 <div className="text-sm text-muted-foreground">Completed</div>
               </div>
               <div>
-                <div className="text-2xl font-bold text-blue-600">
+                <div className="text-2xl font-bold text-primary">
                   {goals.length > 0 ? Math.round((completedGoals.length / goals.length) * 100) : 0}%
                 </div>
                 <div className="text-sm text-muted-foreground">Success Rate</div>
@@ -353,22 +353,22 @@ export const HealthGoals = () => {
       {completedGoals.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <CheckCircle2 className="w-5 h-5 text-green-600" />
-              Completed Goals
-            </CardTitle>
+             <CardTitle className="flex items-center gap-2">
+               <CheckCircle2 className="w-5 h-5 text-success" />
+               Completed Goals
+             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
               {completedGoals.map((goal) => (
-                <div key={goal.id} className="flex items-center justify-between p-3 border rounded-lg bg-green-50 dark:bg-green-950/20">
-                  <div>
-                    <h3 className="font-medium text-green-800 dark:text-green-200">{goal.title}</h3>
-                    <p className="text-sm text-green-600 dark:text-green-400">
-                      {goal.current_value} {goal.unit} achieved!
-                    </p>
-                  </div>
-                  <CheckCircle2 className="w-5 h-5 text-green-600" />
+                 <div key={goal.id} className="flex items-center justify-between p-3 border rounded-lg bg-success/10">
+                   <div>
+                     <h3 className="font-medium text-success">{goal.title}</h3>
+                     <p className="text-sm text-success">
+                       {goal.current_value} {goal.unit} achieved!
+                     </p>
+                   </div>
+                   <CheckCircle2 className="w-5 h-5 text-success" />
                 </div>
               ))}
             </div>

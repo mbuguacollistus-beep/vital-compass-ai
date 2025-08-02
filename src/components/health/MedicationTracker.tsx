@@ -44,7 +44,7 @@ export const MedicationTracker = () => {
           .from('patients')
           .select('*')
           .eq('user_id', user.id)
-          .single();
+          .maybeSingle();
         
         if (patient) {
           setPatientProfile(patient);

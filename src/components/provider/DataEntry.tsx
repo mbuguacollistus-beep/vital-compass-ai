@@ -70,7 +70,7 @@ export const DataEntry = () => {
             .from('profiles')
             .select('full_name, email')
             .eq('user_id', patient.user_id)
-            .single();
+            .maybeSingle();
 
           return {
             id: patient.id,
@@ -94,7 +94,7 @@ export const DataEntry = () => {
               .from('patients')
               .select('id, patient_number')
               .eq('user_id', profile.user_id)
-              .single();
+              .maybeSingle();
 
             return patient ? {
               id: patient.id,
