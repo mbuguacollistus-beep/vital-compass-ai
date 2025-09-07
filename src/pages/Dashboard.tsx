@@ -19,7 +19,9 @@ import { PatientOverview } from '@/components/dashboard/PatientOverview';
 import { ProviderOverview } from '@/components/dashboard/ProviderOverview';
 import { LoadingScreen } from '@/components/dashboard/LoadingScreen';
 import { supabase } from '@/integrations/supabase/client';
-import { EmptyState } from '@/components/ui/empty-state';
+import { MedicalVisits } from '@/components/healthcare/MedicalVisits';
+import { CareNetwork } from '@/components/healthcare/CareNetwork';
+import { ProfileSettings } from '@/components/settings/ProfileSettings';
 import nixLogo from '@/assets/nix-ai-logo.png';
 
 const Dashboard = () => {
@@ -219,45 +221,11 @@ const Dashboard = () => {
           </TabsContent>
           
           <TabsContent value="visits" className="space-y-6">
-            <Card className="shadow-card">
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <span>🏥</span>
-                  <span>Medical Visits History</span>
-                </CardTitle>
-                <CardDescription>
-                  View your past and upcoming medical appointments
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <EmptyState
-                  icon="📅"
-                  title="Medical Visits Coming Soon"
-                  description="We're building a comprehensive appointment management system to track your medical visits and health journey."
-                />
-              </CardContent>
-            </Card>
+            <MedicalVisits />
           </TabsContent>
           
           <TabsContent value="network" className="space-y-6">
-            <Card className="shadow-card">
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <span>👥</span>
-                  <span>Care Network</span>
-                </CardTitle>
-                <CardDescription>
-                  Manage your healthcare providers and family caregivers
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <EmptyState
-                  icon="🤝"
-                  title="Care Network Coming Soon"
-                  description="Connect with your healthcare team and family members to create a comprehensive support network."
-                />
-              </CardContent>
-            </Card>
+            <CareNetwork />
           </TabsContent>
           
           <TabsContent value="patients" className="space-y-6">
@@ -273,24 +241,7 @@ const Dashboard = () => {
           </TabsContent>
           
           <TabsContent value="profile" className="space-y-6">
-            <Card className="shadow-card">
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <span>⚙️</span>
-                  <span>Profile Settings</span>
-                </CardTitle>
-                <CardDescription>
-                  Manage your account and preferences
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <EmptyState
-                  icon="👤"
-                  title="Profile Settings Coming Soon"
-                  description="Customize your account settings, privacy preferences, and notification options."
-                />
-              </CardContent>
-            </Card>
+            <ProfileSettings />
           </TabsContent>
         </Tabs>
       </main>

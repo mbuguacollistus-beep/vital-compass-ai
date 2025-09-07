@@ -15,18 +15,20 @@ const CallToAction = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-              <Button 
-                variant="medical" 
-                size="lg"
-                className="text-lg px-10 py-4"
-              >
+            <Button 
+              variant="medical" 
+              size="lg"
+              className="text-lg px-10 py-4"
+              onClick={() => window.location.href = '/auth'}
+            >
                 Get Started Free
               </Button>
-              <Button 
-                variant="outline" 
-                size="lg"
-                className="text-lg px-10 py-4"
-              >
+            <Button 
+              variant="outline" 
+              size="lg"
+              className="text-lg px-10 py-4"
+              onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
+            >
                 Schedule Demo
               </Button>
             </div>
