@@ -62,26 +62,26 @@ const Hero = () => {
         
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
           <div className="text-center fade-in group">
-            <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-4 hover-scale group-hover:shadow-primary transition-smooth">
+            <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-4 hover-scale group-hover:shadow-primary transition-all duration-300 ease-out">
               <span className="text-white text-2xl" aria-hidden="true">📊</span>
             </div>
-            <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-smooth">Trend Analysis</h3>
+            <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-all duration-300 ease-out">Trend Analysis</h3>
             <p className="text-muted-foreground">AI-powered pattern detection in your health data</p>
           </div>
           
           <div className="text-center fade-in group" style={{animationDelay: "0.2s"}}>
-            <div className="w-12 h-12 bg-gradient-healing rounded-full flex items-center justify-center mx-auto mb-4 hover-scale group-hover:shadow-primary transition-smooth">
+            <div className="w-12 h-12 bg-gradient-healing rounded-full flex items-center justify-center mx-auto mb-4 hover-scale group-hover:shadow-primary transition-all duration-300 ease-out">
               <span className="text-white text-2xl" aria-hidden="true">🤝</span>
             </div>
-            <h3 className="font-semibold text-lg mb-2 group-hover:text-accent transition-smooth">Care Coordination</h3>
+            <h3 className="font-semibold text-lg mb-2 group-hover:text-accent transition-all duration-300 ease-out">Care Coordination</h3>
             <p className="text-muted-foreground">Connect with family, caregivers, and clinicians</p>
           </div>
           
           <div className="text-center fade-in group" style={{animationDelay: "0.4s"}}>
-            <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-4 hover-scale group-hover:shadow-primary transition-smooth">
+            <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-4 hover-scale group-hover:shadow-primary transition-all duration-300 ease-out">
               <span className="text-white text-2xl" aria-hidden="true">🔒</span>
             </div>
-            <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-smooth">Secure & Private</h3>
+            <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-all duration-300 ease-out">Secure & Private</h3>
             <p className="text-muted-foreground">Bank-level encryption with full data control</p>
           </div>
         </div>

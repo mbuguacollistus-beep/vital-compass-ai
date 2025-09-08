@@ -181,15 +181,15 @@ All colors MUST be HSL.
 
   /* Enhanced hover animations */
   .hover-lift {
-    @apply transition-smooth hover:-translate-y-1 hover:shadow-card;
+    @apply transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-card;
   }
 
   .hover-glow {
-    @apply transition-smooth hover:shadow-primary;
+    @apply transition-all duration-300 ease-out hover:shadow-primary;
   }
 
   .hover-scale {
-    @apply transition-smooth hover:scale-105;
+    @apply transition-all duration-300 ease-out hover:scale-105;
   }
 
   /* Loading shimmer effect */

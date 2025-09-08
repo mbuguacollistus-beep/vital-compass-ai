@@ -70,10 +70,10 @@ const Features = () => {
                   role="article"
                   aria-label={`Feature: ${feature.title}`}>
               <CardHeader className="text-center">
-                <div className={`w-16 h-16 ${feature.color} rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-bounce`}>
+                <div className={`w-16 h-16 ${feature.color} rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-all duration-500 ease-out`}>
                   <span className="text-white text-2xl" aria-hidden="true">{feature.icon}</span>
                 </div>
-                <CardTitle className="text-lg group-hover:text-primary transition-smooth">{feature.title}</CardTitle>
+                <CardTitle className="text-lg group-hover:text-primary transition-all duration-300 ease-out">{feature.title}</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-center leading-relaxed">
