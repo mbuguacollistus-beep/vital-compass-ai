@@ -86,11 +86,14 @@ export default {
 			boxShadow: {
 				'card': 'var(--shadow-card)',
 				'dialog': 'var(--shadow-dialog)',
-				'primary': 'var(--shadow-primary)'
+				'primary': 'var(--shadow-primary)',
+				'glow': '0 0 30px hsl(var(--primary) / 0.3)'
 			},
 			transitionTimingFunction: {
 				'smooth': 'var(--transition-smooth)',
-				'bounce': 'var(--transition-bounce)'
+				'bounce': 'var(--transition-bounce)',
+				'fast': 'var(--transition-fast)',
+				'slow': 'var(--transition-slow)'
 			},
 			keyframes: {
 				'accordion-down': {

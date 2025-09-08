@@ -55,7 +55,7 @@ const Features = () => {
   return (
     <section id="features" className="py-20 bg-background">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
+        <div className="text-center mb-16 fade-in">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Complete Health Management Suite
           </h2>
@@ -66,12 +66,14 @@ const Features = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {features.map((feature, index) => (
-            <Card key={index} className="hover:shadow-card transition-smooth border-0 shadow-card">
+            <Card key={index} className="hover-lift border-0 shadow-card stagger-item group cursor-pointer"
+                  role="article"
+                  aria-label={`Feature: ${feature.title}`}>
               <CardHeader className="text-center">
-                <div className={`w-16 h-16 ${feature.color} rounded-2xl flex items-center justify-center mx-auto mb-4`}>
-                  <span className="text-white text-2xl">{feature.icon}</span>
+                <div className={`w-16 h-16 ${feature.color} rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-bounce`}>
+                  <span className="text-white text-2xl" aria-hidden="true">{feature.icon}</span>
                 </div>
-                <CardTitle className="text-lg">{feature.title}</CardTitle>
+                <CardTitle className="text-lg group-hover:text-primary transition-smooth">{feature.title}</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-center leading-relaxed">
