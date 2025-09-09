@@ -22,6 +22,10 @@ import { supabase } from '@/integrations/supabase/client';
 import { MedicalVisits } from '@/components/healthcare/MedicalVisits';
 import { CareNetwork } from '@/components/healthcare/CareNetwork';
 import { ProfileSettings } from '@/components/settings/ProfileSettings';
+import { AIHealthCompanion } from '@/components/ai/AIHealthCompanion';
+import { SmartDeviceIntegration } from '@/components/devices/SmartDeviceIntegration';
+import { HealthChallenges } from '@/components/community/HealthChallenges';
+import { EnvironmentalHealth } from '@/components/environmental/EnvironmentalHealth';
 import nixLogo from '@/assets/nix-ai-logo.png';
 
 const Dashboard = () => {
@@ -119,33 +123,21 @@ const Dashboard = () => {
         <DashboardWelcome patientProfile={patientProfile} />
 
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 bg-card shadow-card">
-            <TabsTrigger value="overview" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              Overview
-            </TabsTrigger>
+          <TabsList className="grid w-full grid-cols-4 lg:grid-cols-6 xl:grid-cols-12 bg-card shadow-card">
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="ai-companion">AI Companion</TabsTrigger>
+            <TabsTrigger value="devices">Smart Devices</TabsTrigger>
+            <TabsTrigger value="challenges">Challenges</TabsTrigger>
+            <TabsTrigger value="environmental">Environment</TabsTrigger>
             {userRole === 'patient' && (
               <>
-                <TabsTrigger value="wellbeing" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-                  Well-being
-                </TabsTrigger>
-                <TabsTrigger value="vitals" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-                  Vitals
-                </TabsTrigger>
-                <TabsTrigger value="medications" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-                  Medications
-                </TabsTrigger>
-                <TabsTrigger value="goals" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-                  Goals
-                </TabsTrigger>
-                <TabsTrigger value="visits" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-                  Visits
-                </TabsTrigger>
-                <TabsTrigger value="food" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-                  Nutrition
-                </TabsTrigger>
-                <TabsTrigger value="network" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-                  Network
-                </TabsTrigger>
+                <TabsTrigger value="wellbeing">Well-being</TabsTrigger>
+                <TabsTrigger value="vitals">Vitals</TabsTrigger>
+                <TabsTrigger value="medications">Medications</TabsTrigger>
+                <TabsTrigger value="goals">Goals</TabsTrigger>
+                <TabsTrigger value="visits">Visits</TabsTrigger>
+                <TabsTrigger value="food">Nutrition</TabsTrigger>
+                <TabsTrigger value="network">Network</TabsTrigger>
               </>
             )}
             {(userRole === 'doctor' || userRole === 'nurse' || userRole === 'hospital_admin') && (
@@ -168,6 +160,22 @@ const Dashboard = () => {
           
           <TabsContent value="overview" className="space-y-6">
             {userRole === 'patient' ? renderPatientDashboard() : renderProviderDashboard()}
+          </TabsContent>
+          
+          <TabsContent value="ai-companion" className="space-y-6">
+            <AIHealthCompanion />
+          </TabsContent>
+          
+          <TabsContent value="devices" className="space-y-6">
+            <SmartDeviceIntegration />
+          </TabsContent>
+          
+          <TabsContent value="challenges" className="space-y-6">
+            <HealthChallenges />
+          </TabsContent>
+          
+          <TabsContent value="environmental" className="space-y-6">
+            <EnvironmentalHealth />
           </TabsContent>
           
           <TabsContent value="wellbeing" className="space-y-6">
