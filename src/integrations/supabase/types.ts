@@ -52,6 +52,90 @@ export type Database = {
           },
         ]
       }
+      data_exports: {
+        Row: {
+          created_at: string
+          data_period_end: string
+          data_period_start: string
+          export_reason: string | null
+          export_type: string
+          exported_by: string
+          id: string
+          recipient_organization: string
+          records_count: number
+        }
+        Insert: {
+          created_at?: string
+          data_period_end: string
+          data_period_start: string
+          export_reason?: string | null
+          export_type: string
+          exported_by: string
+          id?: string
+          recipient_organization: string
+          records_count: number
+        }
+        Update: {
+          created_at?: string
+          data_period_end?: string
+          data_period_start?: string
+          export_reason?: string | null
+          export_type?: string
+          exported_by?: string
+          id?: string
+          recipient_organization?: string
+          records_count?: number
+        }
+        Relationships: []
+      }
+      disease_surveillance: {
+        Row: {
+          confirmed_diagnosis: string | null
+          created_at: string
+          disease_suspected: string | null
+          id: string
+          location_data: Json | null
+          outbreak_alert_level: number | null
+          patient_id: string
+          reported_at: string
+          reported_symptoms: string[]
+          severity_level: number
+          status: string | null
+          updated_at: string
+          verified_by: string | null
+        }
+        Insert: {
+          confirmed_diagnosis?: string | null
+          created_at?: string
+          disease_suspected?: string | null
+          id?: string
+          location_data?: Json | null
+          outbreak_alert_level?: number | null
+          patient_id: string
+          reported_at?: string
+          reported_symptoms: string[]
+          severity_level: number
+          status?: string | null
+          updated_at?: string
+          verified_by?: string | null
+        }
+        Update: {
+          confirmed_diagnosis?: string | null
+          created_at?: string
+          disease_suspected?: string | null
+          id?: string
+          location_data?: Json | null
+          outbreak_alert_level?: number | null
+          patient_id?: string
+          reported_at?: string
+          reported_symptoms?: string[]
+          severity_level?: number
+          status?: string | null
+          updated_at?: string
+          verified_by?: string | null
+        }
+        Relationships: []
+      }
       food_items: {
         Row: {
           allergens: string[] | null
