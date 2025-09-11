@@ -26,7 +26,7 @@ import { AIHealthCompanion } from '@/components/ai/AIHealthCompanion';
 import { SmartDeviceIntegration } from '@/components/devices/SmartDeviceIntegration';
 import { HealthChallenges } from '@/components/community/HealthChallenges';
 import { EnvironmentalHealth } from '@/components/environmental/EnvironmentalHealth';
-import { DiseaseOutbreakTracker } from '@/components/surveillance/DiseaseOutbreakTracker';
+
 import nixLogo from '@/assets/nix-ai-logo.png';
 
 const Dashboard = () => {
@@ -154,11 +154,6 @@ const Dashboard = () => {
                 </TabsTrigger>
               </>
             )}
-            {user?.email?.endsWith('@nixhealth.com') && (
-              <TabsTrigger value="surveillance" className="data-[state=active]:bg-destructive data-[state=active]:text-destructive-foreground">
-                Surveillance
-              </TabsTrigger>
-            )}
             <TabsTrigger value="profile" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               Profile
             </TabsTrigger>
@@ -258,9 +253,6 @@ const Dashboard = () => {
             <ProfileSettings />
           </TabsContent>
           
-          <TabsContent value="surveillance" className="space-y-6">
-            <DiseaseOutbreakTracker />
-          </TabsContent>
         </Tabs>
       </main>
     </div>
