@@ -9,3 +9,6 @@ max_rows = 1000
 
 [functions.food-recommendations]
 verify_jwt = true
+
+[functions.realtime-health-chat]
+verify_jwt = false

@@ -22,7 +22,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { MedicalVisits } from '@/components/healthcare/MedicalVisits';
 import { CareNetwork } from '@/components/healthcare/CareNetwork';
 import { ProfileSettings } from '@/components/settings/ProfileSettings';
-import { AIHealthCompanion } from '@/components/ai/AIHealthCompanion';
+import { VoiceHealthAssistant } from '@/components/ai/VoiceHealthAssistant';
 import { SmartDeviceIntegration } from '@/components/devices/SmartDeviceIntegration';
 import { HealthChallenges } from '@/components/community/HealthChallenges';
 import { EnvironmentalHealth } from '@/components/environmental/EnvironmentalHealth';
@@ -164,7 +164,7 @@ const Dashboard = () => {
           </TabsContent>
           
           <TabsContent value="ai-companion" className="space-y-6">
-            <AIHealthCompanion />
+            <VoiceHealthAssistant />
           </TabsContent>
           
           <TabsContent value="devices" className="space-y-6">
