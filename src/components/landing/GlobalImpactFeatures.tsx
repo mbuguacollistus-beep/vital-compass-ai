@@ -5,61 +5,61 @@ import { MapPin, Users, Globe, Smartphone, Heart, Shield } from "lucide-react";
 const impactFeatures = [
   {
     icon: MapPin,
-    title: "Rural Health Access",
-    description: "Bridge healthcare gaps in remote areas with telemedicine and mobile clinics coordination.",
-    impact: "50M+ people",
+    title: "Global Health Access",
+    description: "Bridge healthcare gaps in remote areas worldwide with telemedicine and mobile clinics coordination.",
+    impact: "500M+ people",
     badge: "High Impact"
   },
   {
     icon: Users,
     title: "Community Health Workers",
-    description: "Empower CHWs with AI-driven decision support and patient tracking tools.",
-    impact: "10K+ CHWs",
+    description: "Empower CHWs globally with AI-driven decision support and patient tracking tools.",
+    impact: "100K+ CHWs",
     badge: "Scalable"
   },
   {
     icon: Globe,
     title: "Multi-Language Support",
-    description: "Healthcare in local languages: Swahili, Yoruba, Amharic, French, Arabic, and more.",
-    impact: "20+ languages",
+    description: "Healthcare in 50+ languages including English, Spanish, French, Arabic, Chinese, and more.",
+    impact: "50+ languages",
     badge: "Inclusive"
   },
   {
     icon: Smartphone,
     title: "Offline-First Design",
-    description: "Works without internet. Sync when connected. Perfect for areas with poor connectivity.",
+    description: "Works without internet. Sync when connected. Perfect for areas with poor connectivity worldwide.",
     impact: "100% offline",
     badge: "Reliable"
   },
   {
     icon: Heart,
-    title: "Maternal Health Focus",
-    description: "Specialized tools for pregnancy monitoring and newborn care in resource-limited settings.",
+    title: "Universal Health Focus",
+    description: "Comprehensive healthcare tools for all demographics in resource-limited and advanced settings.",
     impact: "Lives saved",
     badge: "Critical"
   },
   {
     icon: Shield,
     title: "Disease Surveillance",
-    description: "Early warning systems for outbreak detection and public health monitoring.",
+    description: "Global early warning systems for outbreak detection and public health monitoring.",
     impact: "Real-time alerts",
     badge: "Prevention"
   }
 ];
 
-export const AfricaImpactFeatures = () => {
+export const GlobalImpactFeatures = () => {
   return (
     <section className="py-20 bg-gradient-to-b from-background to-secondary/10">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 space-y-4">
           <Badge variant="outline" className="bg-accent/10 text-accent-foreground border-accent/20">
-            Impact Across Africa
+            Global Impact
           </Badge>
           <h2 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-            Healthcare Innovation for Africa
+            Healthcare Innovation for Everyone
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Designed specifically for African healthcare challenges, built with local communities and providers.
+            Designed for global healthcare challenges, built with international communities and healthcare providers.
           </p>
         </div>
         
@@ -101,7 +101,7 @@ export const AfricaImpactFeatures = () => {
           <div className="inline-flex items-center space-x-2 bg-accent/10 rounded-full px-6 py-3 border border-accent/20">
             <Globe className="w-5 h-5 text-accent" />
             <span className="text-accent-foreground font-medium">
-              Serving 54 African countries with culturally-aware healthcare technology
+              Serving healthcare systems worldwide with intelligent technology solutions
             </span>
           </div>
         </div>

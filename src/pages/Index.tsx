@@ -4,7 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { PerformanceMonitor } from '@/components/ui/performance-monitor';
 import Hero from "@/components/landing/Hero";
 import Features from "@/components/landing/Features";
-import { AfricaImpactFeatures } from "@/components/landing/AfricaImpactFeatures";
+import { GlobalImpactFeatures } from "@/components/landing/GlobalImpactFeatures";
 import CallToAction from "@/components/landing/CallToAction";
 
 const Index = () => {
@@ -30,7 +30,7 @@ const Index = () => {
               Nix AI Healthcare
             </h2>
             <p className="text-muted-foreground text-sm">
-              Connecting Africa's healthcare ecosystem...
+              Connecting global healthcare ecosystems...
             </p>
           </div>
           <div className="w-full bg-secondary/20 rounded-full h-1 overflow-hidden">
@@ -50,7 +50,7 @@ const Index = () => {
     <div className="min-h-screen">
       <PerformanceMonitor />
       <Hero />
-      <AfricaImpactFeatures />
+      <GlobalImpactFeatures />
       <Features />
       <CallToAction />
     </div>

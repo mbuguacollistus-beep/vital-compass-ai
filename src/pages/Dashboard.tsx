@@ -17,6 +17,7 @@ import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
 import { DashboardWelcome } from '@/components/dashboard/DashboardWelcome';
 import { PatientOverview } from '@/components/dashboard/PatientOverview';
 import { ProviderOverview } from '@/components/dashboard/ProviderOverview';
+import { DoctorOverview } from '@/components/dashboard/DoctorOverview';
 import { LoadingScreen } from '@/components/dashboard/LoadingScreen';
 import { supabase } from '@/integrations/supabase/client';
 import { MedicalVisits } from '@/components/healthcare/MedicalVisits';
@@ -111,9 +112,12 @@ const Dashboard = () => {
     <PatientOverview />
   );
 
-  const renderProviderDashboard = () => (
-    <ProviderOverview />
-  );
+  const renderProviderDashboard = () => {
+    if (userRole === 'doctor') {
+      return <DoctorOverview />;
+    }
+    return <ProviderOverview />;
+  };
 
   return (
     <div className="min-h-screen bg-gradient-subtle">
