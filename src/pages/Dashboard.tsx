@@ -18,6 +18,8 @@ import { DashboardWelcome } from '@/components/dashboard/DashboardWelcome';
 import { PatientOverview } from '@/components/dashboard/PatientOverview';
 import { ProviderOverview } from '@/components/dashboard/ProviderOverview';
 import { DoctorOverview } from '@/components/dashboard/DoctorOverview';
+import { NurseOverview } from '@/components/dashboard/NurseOverview';
+import { HospitalAdminOverview } from '@/components/dashboard/HospitalAdminOverview';
 import { LoadingScreen } from '@/components/dashboard/LoadingScreen';
 import { supabase } from '@/integrations/supabase/client';
 import { MedicalVisits } from '@/components/healthcare/MedicalVisits';
@@ -113,10 +115,16 @@ const Dashboard = () => {
   );
 
   const renderProviderDashboard = () => {
-    if (userRole === 'doctor') {
-      return <DoctorOverview />;
+    switch (userRole) {
+      case 'doctor':
+        return <DoctorOverview />;
+      case 'nurse':
+        return <NurseOverview />;
+      case 'hospital_admin':
+        return <HospitalAdminOverview />;
+      default:
+        return <ProviderOverview />;
     }
-    return <ProviderOverview />;
   };
 
   return (

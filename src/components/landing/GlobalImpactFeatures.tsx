@@ -1,6 +1,8 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Users, Globe, Smartphone, Heart, Shield } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
+import { MapPin, Users, Globe, Smartphone, Heart, Shield, ExternalLink } from "lucide-react";
 
 const impactFeatures = [
   {
@@ -48,6 +50,16 @@ const impactFeatures = [
 ];
 
 export const GlobalImpactFeatures = () => {
+  const { toast } = useToast();
+
+  const handleFeatureClick = (feature: typeof impactFeatures[0]) => {
+    toast({
+      title: feature.title,
+      description: `Learn more about ${feature.title.toLowerCase()} and how we're making a global impact with ${feature.impact}.`,
+      duration: 4000,
+    });
+  };
+
   return (
     <section className="py-20 bg-gradient-to-b from-background to-secondary/10">
       <div className="container mx-auto px-4">
@@ -67,7 +79,8 @@ export const GlobalImpactFeatures = () => {
           {impactFeatures.map((feature, index) => {
             const Icon = feature.icon;
             return (
-              <Card key={index} className="group hover:shadow-primary/10 hover:shadow-lg transition-all duration-300 border-primary/10">
+              <Card key={index} className="group hover:shadow-primary/10 hover:shadow-lg transition-all duration-300 border-primary/10 cursor-pointer"
+                    onClick={() => handleFeatureClick(feature)}>
                 <CardHeader className="space-y-4">
                   <div className="flex items-center justify-between">
                     <div className="w-12 h-12 rounded-xl bg-gradient-primary/10 flex items-center justify-center group-hover:bg-gradient-primary/20 transition-colors">
@@ -77,19 +90,25 @@ export const GlobalImpactFeatures = () => {
                       {feature.badge}
                     </Badge>
                   </div>
-                  <CardTitle className="text-xl group-hover:text-primary transition-colors">
+                  <CardTitle className="text-xl group-hover:text-primary transition-colors flex items-center gap-2">
                     {feature.title}
+                    <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <CardDescription className="text-muted-foreground leading-relaxed">
                     {feature.description}
                   </CardDescription>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 rounded-full bg-gradient-primary"></div>
-                    <span className="text-sm font-medium text-primary">
-                      {feature.impact}
-                    </span>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 rounded-full bg-gradient-primary"></div>
+                      <span className="text-sm font-medium text-primary">
+                        {feature.impact}
+                      </span>
+                    </div>
+                    <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                      Learn More
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
