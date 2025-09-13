@@ -1,10 +1,52 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Heart, Calendar, TrendingUp, Activity } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Heart, Calendar, TrendingUp, Activity, Search, FileText, Bell } from 'lucide-react';
 
 export const PatientOverview = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="space-y-6">
+      {/* AI Health Tools */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <Card className="shadow-card border-l-4 border-l-primary">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm flex items-center gap-2">
+              <Search className="h-4 w-4" />
+              Symptom Checker
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Button size="sm" className="w-full">Check Symptoms</Button>
+          </CardContent>
+        </Card>
+        
+        <Card className="shadow-card border-l-4 border-l-accent">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm flex items-center gap-2">
+              <FileText className="h-4 w-4" />
+              Health Journal
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Button size="sm" variant="outline" className="w-full">Add Entry</Button>
+          </CardContent>
+        </Card>
+        
+        <Card className="shadow-card border-l-4 border-l-warning">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm flex items-center gap-2">
+              <Bell className="h-4 w-4" />
+              Reminders
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Button size="sm" variant="outline" className="w-full">View All</Button>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Health Overview Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       <Card className="shadow-card hover:shadow-primary transition-all duration-300 border-l-4 border-l-accent">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Well-being Score</CardTitle>
@@ -69,6 +111,7 @@ export const PatientOverview = () => {
           </div>
         </CardContent>
       </Card>
+      </div>
     </div>
   );
 };

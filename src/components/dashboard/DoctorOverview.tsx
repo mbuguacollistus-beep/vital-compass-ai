@@ -1,11 +1,40 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Users, Calendar, AlertTriangle, FileText, Stethoscope, Clock, TrendingUp, Search } from 'lucide-react';
+import { Users, Calendar, AlertTriangle, FileText, Stethoscope, Clock, TrendingUp, Search, Brain, Mic } from 'lucide-react';
 
 export const DoctorOverview = () => {
   return (
     <div className="space-y-6">
+      {/* AI Tools Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card className="shadow-card border-l-4 border-l-primary">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Brain className="h-5 w-5 text-primary" />
+              Smart Consultation Assistant
+            </CardTitle>
+            <CardDescription>AI-powered diagnostic support and clinical guidelines</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button className="w-full">Launch AI Assistant</Button>
+          </CardContent>
+        </Card>
+        
+        <Card className="shadow-card border-l-4 border-l-accent">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Mic className="h-5 w-5 text-accent" />
+              Voice Transcription
+            </CardTitle>
+            <CardDescription>Convert consultations to structured SOAP notes</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button className="w-full" variant="outline">Start Recording</Button>
+          </CardContent>
+        </Card>
+      </div>
+
       {/* Main Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card className="shadow-card hover:shadow-primary transition-all duration-300 border-l-4 border-l-primary">
