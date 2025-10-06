@@ -1,9 +1,71 @@
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Users, Calendar, AlertTriangle, FileText, Stethoscope, Clock, TrendingUp, Search, Brain, Mic } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/components/ui/use-toast';
 
 export const DoctorOverview = () => {
+  const [stats, setStats] = useState({ patients: 0, todayVisits: 0, criticalCases: 0 });
+  const [recentActivity, setRecentActivity] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    fetchDoctorData();
+  }, []);
+
+  const fetchDoctorData = async () => {
+    try {
+      // Fetch total patients
+      const { count: patientCount } = await supabase
+        .from('patients')
+        .select('*', { count: 'exact', head: true });
+
+      // Fetch today's visits
+      const today = new Date().toISOString().split('T')[0];
+      const { count: todayVisitCount } = await supabase
+        .from('medical_visits')
+        .select('*', { count: 'exact', head: true })
+        .eq('visit_date', today);
+
+      // Fetch recent visits for activity
+      const { data: recentVisits } = await supabase
+        .from('medical_visits')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(4);
+
+      setStats({
+        patients: patientCount || 0,
+        todayVisits: todayVisitCount || 0,
+        criticalCases: 0
+      });
+
+      setRecentActivity(recentVisits?.map(visit => ({
+        patient: `Patient ${visit.patient_id.substring(0, 8)}`,
+        action: `${visit.visit_type} - ${visit.reason_code || 'General consultation'}`,
+        time: new Date(visit.created_at).toLocaleTimeString(),
+        status: visit.visit_type === 'emergency' ? 'critical' : 'normal'
+      })) || []);
+
+    } catch (error: any) {
+      console.error('Error fetching doctor data:', error);
+      toast({
+        title: "Error loading data",
+        description: "Unable to fetch dashboard information",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return <div className="flex items-center justify-center p-8">Loading dashboard...</div>;
+  }
+
   return (
     <div className="space-y-6">
       {/* AI Tools Section */}
@@ -43,9 +105,9 @@ export const DoctorOverview = () => {
             <Users className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-primary">247</div>
+            <div className="text-2xl font-bold text-primary">{stats.patients}</div>
             <p className="text-xs text-muted-foreground">
-              <span className="text-accent">+12</span> new this month
+              Total patients in system
             </p>
             <Badge variant="secondary" className="mt-2 bg-primary-muted text-primary">
               Active Patients
@@ -59,12 +121,12 @@ export const DoctorOverview = () => {
             <Calendar className="h-4 w-4 text-accent" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">14</div>
+            <div className="text-2xl font-bold">{stats.todayVisits}</div>
             <p className="text-xs text-muted-foreground">
-              Next: <span className="font-medium">10:30 AM</span>
+              Scheduled visits today
             </p>
             <Badge variant="outline" className="mt-2">
-              Sarah Johnson - Follow-up
+              View Schedule
             </Badge>
           </CardContent>
         </Card>
@@ -75,7 +137,7 @@ export const DoctorOverview = () => {
             <AlertTriangle className="h-4 w-4 text-warning" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-warning">5</div>
+            <div className="text-2xl font-bold text-warning">{stats.criticalCases}</div>
             <p className="text-xs text-muted-foreground">
               Require immediate attention
             </p>
@@ -87,16 +149,16 @@ export const DoctorOverview = () => {
 
         <Card className="shadow-card hover:shadow-primary transition-all duration-300 border-l-4 border-l-destructive">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Success Rate</CardTitle>
+            <CardTitle className="text-sm font-medium">Recent Activity</CardTitle>
             <TrendingUp className="h-4 w-4 text-destructive" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-accent">94%</div>
+            <div className="text-2xl font-bold text-accent">{recentActivity.length}</div>
             <p className="text-xs text-muted-foreground">
-              Treatment success rate
+              Recent patient interactions
             </p>
             <Badge variant="secondary" className="mt-2 bg-accent-light text-accent">
-              Excellent
+              Updated
             </Badge>
           </CardContent>
         </Card>
@@ -134,7 +196,7 @@ export const DoctorOverview = () => {
                 </div>
               </div>
               <div className="mt-2">
-                <div className="text-xl font-bold">142</div>
+                <div className="text-xl font-bold">{recentActivity.length}</div>
                 <Button variant="ghost" size="sm" className="mt-2 w-full">View All</Button>
               </div>
             </Card>
@@ -150,7 +212,7 @@ export const DoctorOverview = () => {
                 </div>
               </div>
               <div className="mt-2">
-                <div className="text-xl font-bold">23</div>
+                <div className="text-xl font-bold">0</div>
                 <Button variant="ghost" size="sm" className="mt-2 w-full">Review Now</Button>
               </div>
             </Card>
@@ -166,7 +228,7 @@ export const DoctorOverview = () => {
                 </div>
               </div>
               <div className="mt-2">
-                <div className="text-xl font-bold">1,247</div>
+                <div className="text-xl font-bold">{stats.patients}</div>
                 <Button variant="ghost" size="sm" className="mt-2 w-full">Access Records</Button>
               </div>
             </Card>
@@ -175,32 +237,31 @@ export const DoctorOverview = () => {
           {/* Recent Patient Activity */}
           <div className="mt-6">
             <h4 className="font-semibold mb-3">Recent Patient Activity</h4>
-            <div className="space-y-2">
-              {[
-                { patient: "Sarah Johnson", action: "Lab results uploaded", time: "2 hours ago", status: "urgent" },
-                { patient: "Michael Chen", action: "Prescription refill request", time: "4 hours ago", status: "normal" },
-                { patient: "Maria Garcia", action: "Appointment rescheduled", time: "6 hours ago", status: "normal" },
-                { patient: "James Wilson", action: "Emergency visit completed", time: "8 hours ago", status: "critical" }
-              ].map((activity, index) => (
-                <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-secondary/50 hover:bg-secondary/70 transition-colors">
-                  <div className="flex items-center gap-3">
-                    <div className={`w-2 h-2 rounded-full ${
-                      activity.status === 'urgent' ? 'bg-warning' :
-                      activity.status === 'critical' ? 'bg-destructive' :
-                      'bg-accent'
-                    }`}></div>
-                    <div>
-                      <p className="font-medium text-sm">{activity.patient}</p>
-                      <p className="text-xs text-muted-foreground">{activity.action}</p>
+            {recentActivity.length === 0 ? (
+              <p className="text-sm text-muted-foreground">No recent activity</p>
+            ) : (
+              <div className="space-y-2">
+                {recentActivity.map((activity, index) => (
+                  <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-secondary/50 hover:bg-secondary/70 transition-colors">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-2 h-2 rounded-full ${
+                        activity.status === 'urgent' ? 'bg-warning' :
+                        activity.status === 'critical' ? 'bg-destructive' :
+                        'bg-accent'
+                      }`}></div>
+                      <div>
+                        <p className="font-medium text-sm">{activity.patient}</p>
+                        <p className="text-xs text-muted-foreground">{activity.action}</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-xs text-muted-foreground">{activity.time}</p>
+                      <Button variant="ghost" size="sm" className="text-xs">View</Button>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-xs text-muted-foreground">{activity.time}</p>
-                    <Button variant="ghost" size="sm" className="text-xs">View</Button>
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>

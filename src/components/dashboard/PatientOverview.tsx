@@ -1,9 +1,72 @@
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Heart, Calendar, TrendingUp, Activity, Search, FileText, Bell } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/hooks/useAuth';
+import { useToast } from '@/components/ui/use-toast';
 
 export const PatientOverview = () => {
+  const { user } = useAuth();
+  const { toast } = useToast();
+  const [stats, setStats] = useState({ wellbeingScore: 0, upcomingVisits: 0 });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (user) {
+      fetchPatientData();
+    }
+  }, [user]);
+
+  const fetchPatientData = async () => {
+    try {
+      // Get patient ID
+      const { data: patientData } = await supabase
+        .from('patients')
+        .select('id')
+        .eq('user_id', user?.id)
+        .single();
+
+      if (patientData) {
+        // Fetch latest wellbeing entry
+        const { data: wellbeingData } = await supabase
+          .from('wellbeing_entries')
+          .select('score')
+          .eq('patient_id', patientData.id)
+          .order('date_recorded', { ascending: false })
+          .limit(1)
+          .single();
+
+        // Fetch upcoming visits
+        const today = new Date().toISOString().split('T')[0];
+        const { count: visitCount } = await supabase
+          .from('medical_visits')
+          .select('*', { count: 'exact', head: true })
+          .eq('patient_id', patientData.id)
+          .gte('visit_date', today);
+
+        setStats({
+          wellbeingScore: wellbeingData?.score || 0,
+          upcomingVisits: visitCount || 0
+        });
+      }
+    } catch (error: any) {
+      console.error('Error fetching patient data:', error);
+      toast({
+        title: "Error loading data",
+        description: "Unable to fetch dashboard information",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return <div className="flex items-center justify-center p-8">Loading dashboard...</div>;
+  }
+
   return (
     <div className="space-y-6">
       {/* AI Health Tools */}
@@ -53,12 +116,12 @@ export const PatientOverview = () => {
           <Heart className="h-4 w-4 text-accent" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold text-accent">8.2/10</div>
+          <div className="text-2xl font-bold text-accent">{stats.wellbeingScore ? `${stats.wellbeingScore}/10` : 'Not recorded'}</div>
           <p className="text-xs text-muted-foreground">
-            <span className="text-accent">+0.3</span> from yesterday
+            Track your daily wellbeing
           </p>
           <Badge variant="secondary" className="mt-2 bg-accent-light text-accent">
-            Excellent
+            {stats.wellbeingScore >= 8 ? 'Excellent' : stats.wellbeingScore >= 6 ? 'Good' : stats.wellbeingScore >= 4 ? 'Fair' : 'Needs Attention'}
           </Badge>
         </CardContent>
       </Card>
@@ -69,12 +132,12 @@ export const PatientOverview = () => {
           <Calendar className="h-4 w-4 text-primary" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">2</div>
+          <div className="text-2xl font-bold">{stats.upcomingVisits}</div>
           <p className="text-xs text-muted-foreground">
-            Next: <span className="font-medium">Tomorrow 2:00 PM</span>
+            Scheduled appointments
           </p>
           <Badge variant="outline" className="mt-2">
-            Dr. Smith - Cardiology
+            View Schedule
           </Badge>
         </CardContent>
       </Card>
