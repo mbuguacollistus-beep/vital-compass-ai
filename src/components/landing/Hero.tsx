@@ -31,32 +31,23 @@ const Hero = () => {
           </h1>
         </div>
         
-        <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-6 max-w-4xl mx-auto fade-in" style={{animationDelay: "0.2s"}}>
-          Intelligent Patient History & Care Coordinator
+        <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-6 max-w-3xl mx-auto fade-in" style={{animationDelay: "0.2s"}}>
+          Your AI-Powered Healthcare Companion
         </h2>
         
-        <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed fade-in" style={{animationDelay: "0.4s"}}>
-          Your personal health historian that tracks trends, detects patterns, and coordinates care across your entire healthcare journey. Secure, intelligent, and always by your side.
+        <p className="text-lg text-muted-foreground mb-10 max-w-2xl mx-auto fade-in" style={{animationDelay: "0.4s"}}>
+          Track your health, coordinate care, and get intelligent insights.
         </p>
         
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center fade-in" style={{animationDelay: "0.6s"}}>
+        <div className="fade-in" style={{animationDelay: "0.6s"}}>
           <Button 
             variant="medical" 
             size="lg"
-            className="text-lg px-8 py-3 hover-glow"
+            className="text-lg px-10 py-4 hover-glow"
             onClick={() => window.location.href = '/auth'}
             aria-label="Get started with Nix AI Healthcare platform"
           >
-            Start Your Health Journey
-          </Button>
-          <Button 
-            variant="soft" 
-            size="lg"
-            className="text-lg px-8 py-3"
-            onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
-            aria-label="Learn more about our features"
-          >
-            Learn More
+            Get Started
           </Button>
         </div>
         

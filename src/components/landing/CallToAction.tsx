@@ -7,31 +7,21 @@ const CallToAction = () => {
       <div className="container mx-auto px-6">
         <Card className="max-w-4xl mx-auto border-0 shadow-dialog bg-card/50 backdrop-blur-sm">
           <CardContent className="p-12 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Ready to Take Control of Your Health?
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Start Your Health Journey Today
             </h2>
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Join thousands of patients who trust Nix AI to coordinate their care and unlock insights from their health data.
+            <p className="text-lg text-muted-foreground mb-8 max-w-xl mx-auto">
+              Join healthcare providers and patients worldwide using Nix AI.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
             <Button 
               variant="medical" 
               size="lg"
-              className="text-lg px-10 py-4"
+              className="text-lg px-10 py-4 mb-8"
               onClick={() => window.location.href = '/auth'}
             >
-                Get Started Free
-              </Button>
-            <Button 
-              variant="outline" 
-              size="lg"
-              className="text-lg px-10 py-4"
-              onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
-            >
-                Schedule Demo
-              </Button>
-            </div>
+              Get Started
+            </Button>
             
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 pt-8 border-t border-border">

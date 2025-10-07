@@ -50,7 +50,6 @@ const Index = () => {
     <div className="min-h-screen">
       <PerformanceMonitor />
       <Hero />
-      <GlobalImpactFeatures />
       <Features />
       <CallToAction />
     </div>
