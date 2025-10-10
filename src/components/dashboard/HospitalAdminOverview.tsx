@@ -1,12 +1,41 @@
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Building, Users, DollarSign, TrendingUp, Activity, Calendar, AlertTriangle, BarChart3 } from 'lucide-react';
+import { HospitalDataAnalytics } from '@/components/analytics/HospitalDataAnalytics';
+import { supabase } from '@/integrations/supabase/client';
 
 export const HospitalAdminOverview = () => {
+  const [patientCount, setPatientCount] = useState(0);
+  const [visitCount, setVisitCount] = useState(0);
+
+  useEffect(() => {
+    fetchStats();
+  }, []);
+
+  const fetchStats = async () => {
+    const { count: patients } = await supabase
+      .from('patients')
+      .select('*', { count: 'exact', head: true });
+    
+    const { count: visits } = await supabase
+      .from('medical_visits')
+      .select('*', { count: 'exact', head: true });
+
+    setPatientCount(patients || 0);
+    setVisitCount(visits || 0);
+  };
   return (
-    <div className="space-y-6">
-      {/* Main Stats Grid */}
+    <Tabs defaultValue="overview" className="space-y-6">
+      <TabsList>
+        <TabsTrigger value="overview">Overview</TabsTrigger>
+        <TabsTrigger value="analytics">Data Analytics</TabsTrigger>
+      </TabsList>
+
+      <TabsContent value="overview" className="space-y-6">
+        {/* Main Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card className="shadow-card hover:shadow-primary transition-all duration-300 border-l-4 border-l-primary">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -14,9 +43,9 @@ export const HospitalAdminOverview = () => {
             <Users className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-primary">1,247</div>
+            <div className="text-2xl font-bold text-primary">{patientCount}</div>
             <p className="text-xs text-muted-foreground">
-              <span className="text-accent">+89</span> admitted today
+              Total registered patients
             </p>
             <Badge variant="secondary" className="mt-2 bg-primary-muted text-primary">
               85% Capacity
@@ -176,6 +205,11 @@ export const HospitalAdminOverview = () => {
           </div>
         </CardContent>
       </Card>
-    </div>
+      </TabsContent>
+
+      <TabsContent value="analytics">
+        <HospitalDataAnalytics />
+      </TabsContent>
+    </Tabs>
   );
 };

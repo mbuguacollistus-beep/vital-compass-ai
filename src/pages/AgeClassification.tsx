@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { TermsAndConditions } from '@/components/legal/TermsAndConditions';
 import nixLogo from '@/assets/nix-ai-logo.png';
 
 const AGE_GROUPS = [
@@ -16,20 +17,46 @@ const AgeClassification = () => {
   const navigate = useNavigate();
   const [selectedAge, setSelectedAge] = useState<string>('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showTerms, setShowTerms] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
-  const handleContinue = () => {
+  const handleAgeSelection = () => {
     if (!selectedAge) return;
-    
+    setShowTerms(true);
+  };
+
+  const handleTermsAccept = () => {
     setIsProcessing(true);
     
-    // Store age classification for global data processing
+    // Store age classification and terms acceptance
     localStorage.setItem('user_age_group', selectedAge);
+    localStorage.setItem('terms_accepted', 'true');
+    localStorage.setItem('terms_accepted_date', new Date().toISOString());
     
-    // Simulate processing
+    // Navigate to auth
     setTimeout(() => {
       navigate('/auth');
-    }, 1500);
+    }, 1000);
   };
+
+  const handleTermsDecline = () => {
+    setShowTerms(false);
+    setTermsAccepted(false);
+    setSelectedAge('');
+  };
+
+  if (showTerms) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-subtle p-6">
+        <TermsAndConditions
+          onAccept={handleTermsAccept}
+          onDecline={handleTermsDecline}
+          accepted={termsAccepted}
+          onCheckChange={setTermsAccepted}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-subtle p-6">
@@ -69,19 +96,13 @@ const AgeClassification = () => {
           </div>
           
           <Button
-            onClick={handleContinue}
-            disabled={!selectedAge || isProcessing}
+            onClick={handleAgeSelection}
+            disabled={!selectedAge}
             variant="medical"
             size="lg"
             className="w-full text-lg"
           >
-            {isProcessing ? (
-              <>
-                <span className="animate-pulse">Processing...</span>
-              </>
-            ) : (
-              'Continue to Login'
-            )}
+            Continue to Terms & Conditions
           </Button>
           
           <p className="text-xs text-center text-muted-foreground">
