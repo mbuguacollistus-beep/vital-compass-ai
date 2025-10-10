@@ -18,7 +18,10 @@ const CallToAction = () => {
               variant="medical" 
               size="lg"
               className="text-lg px-10 py-4 mb-8"
-              onClick={() => window.location.href = '/auth'}
+              onClick={() => {
+                const ageGroup = localStorage.getItem('user_age_group');
+                window.location.href = ageGroup ? '/auth' : '/age-classification';
+              }}
             >
               Get Started
             </Button>

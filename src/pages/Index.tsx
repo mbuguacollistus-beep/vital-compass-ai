@@ -14,6 +14,12 @@ const Index = () => {
   useEffect(() => {
     if (user && !loading) {
       navigate('/dashboard');
+    } else if (!user && !loading) {
+      // Check if user has completed age classification
+      const ageGroup = localStorage.getItem('user_age_group');
+      if (!ageGroup) {
+        navigate('/age-classification');
+      }
     }
   }, [user, loading, navigate]);
 
